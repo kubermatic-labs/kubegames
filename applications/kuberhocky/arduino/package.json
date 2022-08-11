@@ -1,0 +1,28 @@
+{
+  "name": "kuberhocky",
+  "version": "1.0.0",
+  "description": "A node.js applikation to read arduiono sesnors and trigger events",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kubermatic-labs/kubegames.git"
+  },
+  "keywords": [
+    "kubernetes",
+    "nodejs",
+    "multicluster",
+    "arduino"
+  ],
+  "author": "Mario Fahlandt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kubermatic-labs/kubegames/issues"
+  },
+  "homepage": "https://github.com/kubermatic-labs/kubegames#readme",
+  "dependencies": {
+    "johnny-five": "^2.1.0"
+  }
+}
