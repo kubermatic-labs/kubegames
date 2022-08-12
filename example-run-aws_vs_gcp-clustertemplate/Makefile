@@ -27,6 +27,7 @@ export
 #doc 	creates cluster from a predefined cluster template spec over the KKP API
 #doc
 .PHONY: create-cluster-from-template-all
+create-cluster-from-template-all:
 	${CLUSTER_TEMPLATE_APPLY} aws-team-a 1
 	${CLUSTER_TEMPLATE_APPLY} gcp-team-b 1
 
