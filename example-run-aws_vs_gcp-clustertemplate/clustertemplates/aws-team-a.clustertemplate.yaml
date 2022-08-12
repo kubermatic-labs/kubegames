@@ -1,0 +1,59 @@
+apiVersion: kubermatic.k8s.io/v1
+clusterLabels:
+  project-id: d4nzb4ldv6
+  team: A
+credential: credential-aws-hnrmtgvlzr
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: '{   "name": "aws-team-a-node-pool",   "creationTimestamp": "0001-01-01T00:00:00Z",   "spec": {     "replicas": 1,     "template": {       "cloud": {         "aws": {           "instanceType": "t3a.medium",           "diskSize": 25,           "volumeType": "standard",           "ami": "",           "tags": null,           "availabilityZone": "eu-central-1a",           "subnetID": "subnet-0541a13d0cb8870d7",           "assignPublicIP": true,           "isSpotInstance": true,           "spotInstanceMaxPrice": "",           "spotInstancePersistentRequest": false         }       },       "operatingSystem": {         "ubuntu": {           "distUpgrade": false         }       },       "versions": {         "kubelet": ""       }     }   },   "status": {} }'
+    user: tobias.schneck@kubermatic.com
+  labels:
+    name: aws-team-a
+    project-id: d4nzb4ldv6
+    scope: project
+  name: aws-team-a
+spec:
+  cloud:
+    aws:
+      credentialsReference:
+        name: credential-aws-hnrmtgvlzr
+        namespace: kubermatic
+      instanceProfileName: ""
+      roleARN: ""
+      routeTableId: ""
+      securityGroupID: ""
+      vpcId: vpc-01c49dc069e4b0131
+    dc: aws-eu-central-1a
+    providerName: aws
+  clusterNetwork:
+    dnsDomain: cluster.local
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: cilium
+    version: v1.11
+  componentsOverride:
+    apiserver:
+      nodePortRange: 30000-32767
+      replicas: 2
+    controllerManager:
+      replicas: 1
+    etcd:
+      clusterSize: 3
+      diskSize: 5Gi
+    scheduler:
+      replicas: 1
+  containerRuntime: containerd
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: aws-team-A
+  opaIntegration:
+    enabled: false
+  pause: false
+  version: 1.21.8
