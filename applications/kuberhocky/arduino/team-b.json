@@ -1,0 +1,78 @@
+{
+  "apiVersion": "kubermatic.k8s.io/v1",
+  "clusterLabels": {
+    "project-id": "d4nzb4ldv6",
+    "team": "B"
+  },
+  "credential": "credential-gcp-2cbn4blbz4",
+  "kind": "ClusterTemplate",
+  "metadata": {
+    "annotations": {
+      "kubermatic.io/initial-machinedeployment-request": "{\"name\":\"gcp-team-b-node-pool\",\"creationTimestamp\":\"0001-01-01T00:00:00Z\",\"spec\":{\"replicas\":1,\"template\":{\"cloud\":{\"gcp\":{\"zone\":\"europe-west3-a\",\"machineType\":\"n1-standard-2\",\"diskSize\":25,\"diskType\":\"pd-standard\",\"preemptible\":true,\"labels\":null,\"tags\":null,\"customImage\":\"\"}},\"operatingSystem\":{\"ubuntu\":{\"distUpgradeOnBoot\":false}},\"versions\":{\"kubelet\":\"\"}}},\"status\":{}}",
+      "user": "tobias.schneck@kubermatic.com"
+    },
+    "labels": {
+      "name": "gcp-team-b",
+      "project-id": "d4nzb4ldv6",
+      "scope": "project"
+    },
+    "name": "gcp-team-b"
+  },
+  "spec": {
+    "cloud": {
+      "dc": "gcp",
+      "gcp": {
+        "credentialsReference": {
+          "name": "credential-gcp-s66fp7xg5l",
+          "namespace": "kubermatic"
+        },
+        "network": "",
+        "subnetwork": ""
+      },
+      "providerName": "gcp"
+    },
+    "clusterNetwork": {
+      "dnsDomain": "cluster.local",
+      "nodeLocalDNSCacheEnabled": true,
+      "pods": {
+        "cidrBlocks": [
+          "172.25.0.0/16"
+        ]
+      },
+      "services": {
+        "cidrBlocks": [
+          "10.240.16.0/20"
+        ]
+      }
+    },
+    "cniPlugin": {
+      "type": "cilium",
+      "version": "v1.11"
+    },
+    "componentsOverride": {
+      "apiserver": {
+        "nodePortRange": "30000-32767",
+        "replicas": 2
+      },
+      "controllerManager": {
+        "replicas": 1
+      },
+      "etcd": {
+        "clusterSize": 3,
+        "diskSize": "5Gi"
+      },
+      "scheduler": {
+        "replicas": 1
+      }
+    },
+    "containerRuntime": "containerd",
+    "enableUserSSHKeyAgent": true,
+    "exposeStrategy": "NodePort",
+    "humanReadableName": "gcp-team-b",
+    "opaIntegration": {
+      "enabled": false
+    },
+    "pause": false,
+    "version": "1.21.8"
+  }
+}

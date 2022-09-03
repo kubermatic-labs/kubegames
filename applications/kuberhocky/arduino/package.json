@@ -18,11 +18,15 @@
   ],
   "author": "Mario Fahlandt",
   "license": "ISC",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/kubermatic-labs/kubegames/issues"
   },
   "homepage": "https://github.com/kubermatic-labs/kubegames#readme",
   "dependencies": {
+    "@abandonware/bluetooth-hci-socket": "^0.5.3-8",
+    "@abandonware/noble": "^1.9.2-15",
+    "got": "^12.3.1",
     "johnny-five": "^2.1.0"
   }
 }
