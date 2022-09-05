@@ -2,7 +2,7 @@ apiVersion: kubermatic.k8s.io/v1
 clusterLabels:
   project-id: d4nzb4ldv6
   team: A
-credential: credential-aws-hnrmtgvlzr
+credential: credential-aws-kubegames
 kind: ClusterTemplate
 metadata:
   annotations:
@@ -17,7 +17,7 @@ spec:
   cloud:
     aws:
       credentialsReference:
-        name: credential-aws-hnrmtgvlzr
+        name: credential-aws-kubegames
         namespace: kubermatic
       instanceProfileName: ""
       roleARN: ""
