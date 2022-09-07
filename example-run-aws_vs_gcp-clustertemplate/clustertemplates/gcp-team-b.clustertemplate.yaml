@@ -2,7 +2,7 @@ apiVersion: kubermatic.k8s.io/v1
 clusterLabels:
   project-id: d4nzb4ldv6
   team: B
-credential: credential-gcp-2cbn4blbz4
+credential: credential-gcp-kubegames
 kind: ClusterTemplate
 metadata:
   annotations:
@@ -18,7 +18,7 @@ spec:
     dc: gcp
     gcp:
       credentialsReference:
-        name: credential-gcp-s66fp7xg5l
+        name: credential-gcp-kubegames
         namespace: kubermatic
       network: ""
       subnetwork: ""
