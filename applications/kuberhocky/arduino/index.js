@@ -2,39 +2,39 @@ import five from 'johnny-five';
 import config from './config.js';
 import cluster from './cluster.js';
 
+var ports = [
+    { id: config.teamA.template, port: "/dev/ttyACM0" }, // this[0]
+    { id: config.teamB.template, port: "/dev/ttyACM1" } // this[1]
+  ];
+
+
 const api = new cluster(config.kkp.project);
-// const board = new five.Board();
+
+const boards = new five.Boards(ports).on('ready', function() {
+    // does nothing?
+    console.log("Start Boards");
+  });
 
 
-api.getAllClustersFromProject().then(data => {
-    console.log('endline', data);
-});
+setTimeout( function() {
 
-/**
- board.on('ready', function () {
-    // Create a new `motion` hardware instance.
-
-    const motion = new five.Motion(2);
-
-    // "calibrated" occurs once, at the beginning of a session,
-    motion.on("calibrated", function() {
-        console.log("calibrated", Date.now());
-
+    const motionA = new five.Motion({pin: 2, board: boards[0]} );
+    const motionB = new five.Motion({pin: 2, board: boards[1]});
+    console.log('motion sensors active')
+    motionA.on("motionend", motion => {
+        console.log("Motion Team A")
+        api.createClusterByTemplate(config.teamA.template, 1).then(data => {
+            console.log("Cluster Created for Team A");
+        });
     });
 
-    // "motionstart" events are fired when the "calibrated"
-    // proximal area is disrupted, generally by some form of movement
-    motion.on("motionstart", function() {
-        console.log("motionstart", Date.now());
+    motionB.on("motionend", motion => {
+        console.log("Motion Team B ")
+        api.createClusterByTemplate(config.teamB.template, 1).then(data => {
+            console.log("Cluster Created for Team B");
+        });
     });
 
-    // "motionend" events are fired following a "motionstart" event
-    // when no movement has occurred in X ms
-    motion.on("motionend", function() {
-        console.log("motionend", Date.now());
-    });
-});
 
 
-
- **/
+  }, 5000);

@@ -19,7 +19,7 @@ const post = function (uri, payload) {
             }).json();
             return res;
         } catch (error) {
-            console.log(error);
+            console.log(error.code);
             //=> 'Internal server error ...'
         }
     })();
@@ -35,7 +35,7 @@ const put = function (uri, payload) {
             }).json();
             return res;
         } catch (error) {
-            console.log(error);
+            console.log(error.code);
             //=> 'Internal server error ...'
         }
     })();
@@ -51,7 +51,7 @@ const get = async (uri) => {
 
         return res;
     } catch (error) {
-        console.log(error);
+        console.log(error.code);
         //=> 'Internal server error ...'
     }
 }
@@ -65,7 +65,7 @@ const remove = async function (uri) {
         }).json();
 
     } catch (error) {
-        console.log(error);
+        console.log(error.code);
         //=> 'Internal server error ...'
     }
 }

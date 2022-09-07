@@ -18,16 +18,24 @@ export default class Cluster {
     }
 
     async removeCluster(clusterId, dc) {
-        const uri = config.kkp.api + '/projects/' + this._projectId + '/dc/' + dc + '/clusters/' + clusterId;
+        const uri = config.kkp.api + '/projects/' + this._projectId + '/clusters/' + clusterId;
         return https.remove(uri)
     }
 
     async removeAllClustersFromProject() {
+        const promises = [];
         this.getAllClustersFromProject().then(clusters => {
             clusters.forEach(cluster => {
-                this.removeCluster(cluster.id, cluster.spec.cloud.dc);
+                console.log(cluster.id);
+                promises.push(this.removeCluster(cluster.id));
+               
             });
+            Promise.all(promises).then((values) => {
+                console.log("Deleted Clusters ", values.length);
+                
+              });
         })
+       
 
 
     }
