@@ -1,0 +1,65 @@
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: dl6kxzf8br
+  team: A
+credential: credential-aws-kubegames-cluster-template
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: '{"name":"kubegames-aws-small-node","creationTimestamp":"0001-01-01T00:00:00Z","spec":{"replicas":0,"template":{"cloud":{"aws":{"instanceType":"t3a.medium","diskSize":25,"volumeType":"standard","ami":"","tags":null,"availabilityZone":"eu-central-1b","subnetID":"subnet-0541a13d0cb8870d7","assignPublicIP":true,"isSpotInstance":true,"spotInstanceMaxPrice":"","spotInstancePersistentRequest":false}},"operatingSystem":{"ubuntu":{"distUpgradeOnBoot":false}},"versions":{"kubelet":""}}},"status":{}}'
+    presetName: kubermatic-com
+  labels:
+    is-credential-preset: "true"
+    name: kubegames-aws-team-a
+    project-id: dl6kxzf8br
+    scope: global
+  name: kubegames-aws-team-a
+spec:
+  cloud:
+    aws:
+      credentialsReference:
+        name: credential-aws-kubegames-cluster-template
+        namespace: kubermatic
+      instanceProfileName: ""
+      nodePortsAllowedIPRanges:
+        cidrBlocks:
+        - 0.0.0.0/0
+      roleARN: ""
+      routeTableID: ""
+      securityGroupID: ""
+      vpcID: vpc-01c49dc069e4b0131
+    dc: aws-eu-central-1a
+    providerName: aws
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.23
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: kubegames-aws-team-a
+  kubernetesDashboard:
+    enabled: true
+  mla:
+    loggingEnabled: false
+    monitoringEnabled: false
+  opaIntegration:
+    enabled: false
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.23.9
