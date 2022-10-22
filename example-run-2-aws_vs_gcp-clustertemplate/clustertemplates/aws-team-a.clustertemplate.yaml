@@ -28,26 +28,25 @@ spec:
       roleARN: ""
       routeTableID: ""
       securityGroupID: ""
-      vpcID: vpc-01c49dc069e4b0131
-    dc: aws-eu-central-1a
+      vpcID: vpc-898dedf1
+    dc: aws-us-west-2a
     providerName: aws
   clusterNetwork:
     dnsDomain: cluster.local
     ipFamily: IPv4
-    ipvs:
-      strictArp: true
+    konnectivityEnabled: true
     nodeCidrMaskSizeIPv4: 24
     nodeLocalDNSCacheEnabled: true
     pods:
       cidrBlocks:
       - 172.25.0.0/16
-    proxyMode: ipvs
+    proxyMode: ebpf
     services:
       cidrBlocks:
       - 10.240.16.0/20
   cniPlugin:
-    type: canal
-    version: v3.23
+    type: cilium
+    version: v1.12
   containerRuntime: containerd
   enableOperatingSystemManager: true
   enableUserSSHKeyAgent: true
