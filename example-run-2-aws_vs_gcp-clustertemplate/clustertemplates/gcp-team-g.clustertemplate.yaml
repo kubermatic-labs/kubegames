@@ -59,4 +59,4 @@ spec:
     enabled: false
     webhookTimeoutSeconds: 10
   pause: false
-  version: 1.23.9
+  version: 1.23.12

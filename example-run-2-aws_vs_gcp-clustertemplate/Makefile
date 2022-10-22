@@ -42,8 +42,8 @@ create-cluster-from-template-team-b:
 .PHONY:
 count-clusters:
 	@echo "------------------"
-	@echo "Count of Clusters of Team A: $$(kubectl get cluster -l team=A --no-headers | wc -l)"
-	@echo "Count of Clusters of Team G: $$(kubectl get cluster -l team=G --no-headers | wc -l)"
+	@echo "Count of Clusters of Team A: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l team=A --no-headers | wc -l)"
+	@echo "Count of Clusters of Team G: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l team=G --no-headers | wc -l)"
 	@echo "------------------"
 #doc make delete-all-cluster:
 #doc 	delete all clusters in specified project
