@@ -1,0 +1,62 @@
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: dl6kxzf8br
+  team: G
+credential: credential-gcp-kubegames-cluster-template
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: '{"name":"kubegames-gcp-small-node","creationTimestamp":"0001-01-01T00:00:00Z","spec":{"replicas":0,"template":{"cloud":{"gcp":{"zone":"europe-west3-a","machineType":"n2-standard-2","diskSize":25,"diskType":"pd-standard","preemptible":false,"labels":null,"tags":null,"customImage":""}},"operatingSystem":{"ubuntu":{"distUpgradeOnBoot":false}},"versions":{"kubelet":""}}},"status":{}}'
+    presetName: kubermatic-com
+  labels:
+    is-credential-preset: "true"
+    name: kubegames-gcp-team-g
+    project-id: dl6kxzf8br
+    scope: global
+  name: kubegames-gcp-team-g
+spec:
+  cloud:
+    dc: gcp
+    gcp:
+      credentialsReference:
+        name: credential-gcp-kubegames-cluster-template
+        namespace: kubermatic
+      network: ""
+      nodePortsAllowedIPRanges:
+        cidrBlocks:
+        - 0.0.0.0/0
+      subnetwork: ""
+    providerName: gcp
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.23
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: kubegames-gcp-team-g
+  kubernetesDashboard:
+    enabled: true
+  mla:
+    loggingEnabled: false
+    monitoringEnabled: false
+  opaIntegration:
+    enabled: false
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.23.12
