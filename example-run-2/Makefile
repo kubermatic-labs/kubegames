@@ -10,6 +10,7 @@ CLUSTER_DELETE_ALL ?= "${SCRIPT_FOLDER}/cluster-delete-all.sh"
 #KKP_CLUSTER_PAYLOAD=cluster.json
 #KKP_CLUSTER_ADDON=addon-*.json
 #KKP_CLUSTER_ADD_MACHINE_DEPLOYMENT=machine_deployment*.json
+KKP_PROJECT=9596h8bgw5
 
 SHELL=/bin/bash
 include ./kkp-env.sh
@@ -32,18 +33,18 @@ create-cluster-from-template-all:
 	${CLUSTER_TEMPLATE_APPLY} kubegames-gcp-team-g  1
 
 .PHONY: create-cluster-from-template-team-a
-create-cluster-from-template-team-a:
-	${CLUSTER_TEMPLATE_APPLY} kubegames-aws-team-a 1
-
-.PHONY: create-cluster-from-template-team-b
-create-cluster-from-template-team-b:
-	${CLUSTER_TEMPLATE_APPLY} kubegames-gcp-team-g  1
+create-cluster-from-template-aws-goal:
+	${CLUSTER_TEMPLATE_APPLY} aws-goal 1
+#
+#.PHONY: create-cluster-from-template-team-b
+#create-cluster-from-template-team-b:
+#	${CLUSTER_TEMPLATE_APPLY} kubegames-gcp-team-g  1
 
 .PHONY:
 count-clusters:
 	@echo "------------------"
-	@echo "Count of Clusters of Team A: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l team=A --no-headers | wc -l)"
-	@echo "Count of Clusters of Team G: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l team=G --no-headers | wc -l)"
+	@echo "Count of Clusters of AWS: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l goal=aws --no-headers | wc -l)"
+	@echo "Count of Clusters of Google: $$(KUBECONFIG=${KKP_MASTER_KUBECONFIG} kubectl get cluster -l goal=gce --no-headers | wc -l)"
 	@echo "------------------"
 #doc make delete-all-cluster:
 #doc 	delete all clusters in specified project
@@ -67,7 +68,7 @@ help: Makefile
 
 
 ######### KKP Management
-KKP_MASTER_KUBECONFIG ?= ../../../kubermatic/sig-cs-infra/lab.kubermatic.io/run-2.lab.kubermatic.io/vault/kubeconfig
+KKP_MASTER_KUBECONFIG ?= ../../../kubermatic/sig-cs-infra/lab.kubermatic.io/run-2.lab.kubermatic.io/secrets/kubeconfig
 KKP_CLUSTER_TEMPLATES ?= ./clustertemplates
 KKP_SECRECTS ?= ./secrets
 kkp-clustertemplate-apply:
