@@ -1,0 +1,132 @@
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+  type: demo
+credential: credential-vsphere-sig-vsphere
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "vsphere-goal-node",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "annotations": {
+            "k8c.io/operating-system-profile": "osp-ubuntu"
+          },
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 2,
+          "selector": {
+            "matchLabels": {
+              "machine": "vsphere-goal"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "vsphere-goal"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null,
+                "labels": {}
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "vsphere",
+                  "cloudProviderSpec": {
+                    "templateVMName": "kkp-ubuntu-22.04",
+                    "vmNetName": "Default",
+                    "cpus": 2,
+                    "memoryMB": 4096,
+                    "diskSizeGB": 10,
+                    "allowInsecure": true
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-new-dc
+    user: tobias.schneck@kubermatic.com
+  labels:
+    is-credential-preset: "true"
+    name: vsphere-goal
+    project-id: 9596h8bgw5
+    scope: global
+  name: vsphere-goal
+spec:
+  cloud:
+    dc: vsphere
+    providerName: vsphere
+    vsphere:
+      credentialsReference:
+        name: credential-vsphere-sig-vsphere
+        namespace: kubermatic
+      infraManagementUser: {}
+      datastore: vsan
+      folder: ""
+      password: ""
+      storagePolicy: ""
+      username: ""
+      vmNetName: Default Network
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.24
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: vsphere-goal
+  kubernetesDashboard:
+    enabled: true
+  mla:
+    loggingEnabled: false
+    monitoringEnabled: false
+  opaIntegration:
+    enabled: true
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.9
