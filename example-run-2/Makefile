@@ -29,16 +29,22 @@ export
 #doc
 .PHONY: create-cluster-from-template-all
 create-cluster-from-template-all:
-	${CLUSTER_TEMPLATE_APPLY} kubegames-aws-team-a 1
-	${CLUSTER_TEMPLATE_APPLY} kubegames-gcp-team-g  1
-
-.PHONY: create-cluster-from-template-team-a
-create-cluster-from-template-aws-goal:
 	${CLUSTER_TEMPLATE_APPLY} aws-goal 1
-#
-#.PHONY: create-cluster-from-template-team-b
-#create-cluster-from-template-team-b:
-#	${CLUSTER_TEMPLATE_APPLY} kubegames-gcp-team-g  1
+	${CLUSTER_TEMPLATE_APPLY} azure-goal 1
+	${CLUSTER_TEMPLATE_APPLY} gcp-goal 1
+	${CLUSTER_TEMPLATE_APPLY} kubeadm-goal 1
+
+create-cluster-from-template-aws:
+	${CLUSTER_TEMPLATE_APPLY} aws-goal 1
+
+create-cluster-from-template-azure:
+	${CLUSTER_TEMPLATE_APPLY} azure-goal 1
+
+create-cluster-from-template-gcp:
+	${CLUSTER_TEMPLATE_APPLY} gcp-goal 1
+
+create-cluster-from-template-kubeadm:
+	${CLUSTER_TEMPLATE_APPLY} kubeadm-goal 1
 
 .PHONY:
 count-clusters:

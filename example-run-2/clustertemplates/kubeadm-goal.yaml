@@ -1,0 +1,51 @@
+apiVersion: kubermatic.k8c.io/v1
+kind: ClusterTemplate
+clusterLabels:
+  goal: kubecon
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+credential: credential-aws-kubegames-cluster-template
+metadata:
+  annotations:
+    presetName: kubermatic-com
+  labels:
+    is-credential-preset: "true"
+    name: kubeadm-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: kubeadm-goal
+spec:
+  cloud:
+    bringyourown: {}
+    dc: byo-europe-west3-c
+    providerName: bringyourown
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.24
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: kubeadm-goal
+  kubernetesDashboard:
+    enabled: true
+  opaIntegration:
+    enabled: false
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.6

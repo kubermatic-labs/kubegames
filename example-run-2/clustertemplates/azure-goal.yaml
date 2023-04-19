@@ -3,14 +3,13 @@ kind: ClusterTemplate
 clusterLabels:
   is-credential-preset: "true"
   project-id: 9596h8bgw5
-  goal: aws
-credential: credential-aws-kubegames-cluster-template
+credential: credential-azure-sig-cluster-template
 metadata:
   annotations:
     kubermatic.io/initial-machinedeployment-request: |
       {
         "metadata": {
-          "name": "aws-goal",
+          "name": "sig-azure-node",
           "namespace": "kube-system",
           "creationTimestamp": null,
           "annotations": {
@@ -24,14 +23,14 @@ metadata:
           "replicas": 0,
           "selector": {
             "matchLabels": {
-              "machine": "aws-goal"
+              "machine": "azure-goal"
             }
           },
           "template": {
             "metadata": {
               "creationTimestamp": null,
               "labels": {
-                "machine": "aws-goal"
+                "machine": "azure-goal"
               }
             },
             "spec": {
@@ -43,32 +42,30 @@ metadata:
                 "value": {
                   "sshPublicKeys": [],
                   "caPublicKey": "",
-                  "cloudProvider": "aws",
+                  "cloudProvider": "azure",
                   "cloudProviderSpec": {
-                    "accessKeyId": "",
-                    "secretAccessKey": "",
-                    "assumeRoleARN": "",
-                    "assumeRoleExternalID": "",
-                    "region": "eu-central-1",
-                    "availabilityZone": "eu-central-1b",
-                    "vpcId": "vpc-01c49dc069e4b0131",
-                    "subnetId": "subnet-0541a13d0cb8870d7",
-                    "securityGroupIDs": [
-                      ""
-                    ],
-                    "instanceProfile": "",
-                    "instanceType": "t3a.medium",
-                    "ami": "",
-                    "diskSize": 25,
-                    "diskType": "standard",
-                    "ebsVolumeEncrypted": false,
+                    "subscriptionID": "",
+                    "tenantID": "",
+                    "clientID": "",
+                    "clientSecret": "",
+                    "location": "westeurope",
+                    "resourceGroup": "",
+                    "vnetResourceGroup": "",
+                    "vmSize": "Standard_D2_v2",
+                    "vnetName": "",
+                    "subnetName": "",
+                    "loadBalancerSku": "",
+                    "routeTableName": "",
+                    "availabilitySet": "",
+                    "assignAvailabilitySet": true,
+                    "securityGroupName": "",
+                    "zones": null,
+                    "enableAcceleratedNetworking": null,
+                    "imageID": "",
+                    "osDiskSize": 30,
+                    "dataDiskSize": 30,
                     "assignPublicIP": true,
-                    "isSpotInstance": true,
-                    "spotInstanceConfig": {
-                      "maxPrice": "0.1",
-                      "persistentRequest": true,
-                      "interruptionBehavior": ""
-                    }
+                    "tags": {}
                   },
                   "operatingSystem": "ubuntu",
                   "operatingSystemSpec": {
@@ -93,29 +90,38 @@ metadata:
         "status": {}
       }
     presetName: kubermatic-com
+    user: ezron@kubermatic.com
+  finalizers:
+  - kubermatic.k8c.io/cleanup-credentials-secrets
+  - kubermatic.k8c.io/cleanup-seed-cluster-template
+  generation: 1
   labels:
     is-credential-preset: "true"
-    name: aws-goal
+    name: azure-goal
     project-id: 9596h8bgw5
-    scope: project
-  name: aws-goal
+    scope: global
+  name: azure-goal
 spec:
   auditLogging: {}
   cloud:
-    aws:
+    azure:
+      assignAvailabilitySet: true
+      availabilitySet: ""
       credentialsReference:
-        name: credential-aws-kubegames-cluster-template
+        name: credential-azure-sig-cluster-template
         namespace: kubermatic
-      instanceProfileName: ""
+      loadBalancerSKU: basic
       nodePortsAllowedIPRanges:
         cidrBlocks:
         - 0.0.0.0/0
-      roleARN: ""
-      routeTableID: ""
-      securityGroupID: ""
-      vpcID: vpc-01c49dc069e4b0131
-    dc: aws-eu-central-1a
-    providerName: aws
+      resourceGroup: ""
+      routeTable: ""
+      securityGroup: ""
+      subnet: ""
+      vnet: ""
+      vnetResourceGroup: ""
+    dc: azure-westeurope
+    providerName: azure
   clusterNetwork:
     dnsDomain: cluster.local
     ipFamily: IPv4
@@ -127,13 +133,13 @@ spec:
     pods:
       cidrBlocks:
       - 172.25.0.0/16
-    proxyMode: ipvs
+    proxyMode: ebpf
     services:
       cidrBlocks:
       - 10.240.16.0/20
   cniPlugin:
-    type: canal
-    version: v3.24
+    type: cilium
+    version: 1.13.0
   componentsOverride:
     apiserver:
       nodePortRange: 30000-32767
@@ -155,7 +161,7 @@ spec:
   enableOperatingSystemManager: true
   enableUserSSHKeyAgent: true
   exposeStrategy: NodePort
-  humanReadableName: aws-goal
+  humanReadableName: azure-goal
   kubernetesDashboard:
     enabled: true
   mla: {}
