@@ -2,7 +2,7 @@ kind: ClusterTemplate
 apiVersion: kubermatic.k8c.io/v1
 clusterLabels:
   is-credential-preset: "true"
-  project-id: dl6kxzf8br
+  project-id: 9596h8bgw5
   type: demo
 credential: credential-gcp-sig-cluster-template
 metadata:
@@ -86,7 +86,7 @@ metadata:
   labels:
     is-credential-preset: "true"
     name: gcp-goal
-    project-id: dl6kxzf8br
+    project-id: 9596h8bgw5
     scope: project
   name: gcp-goal
 spec:

@@ -31,7 +31,7 @@ spec:
                   echodate "Starting to clean up"
                   
                   #max 90 tries => 15min for one cluster
-                  maxcount=1 
+                  maxcount=60 
                   for i in `kubectl get cluster  -l project-id=9596h8bgw5 --no-headers | awk '{print $1}'`; do
                       count=0
 
@@ -59,10 +59,10 @@ spec:
           securityContext: {}
           serviceAccountName: kubermatic-cluster-cleanup-kubegame
           terminationGracePeriodSeconds: 30
-  schedule: '*/5 * * * *'
+  schedule: '*/15 * * * *'
   startingDeadlineSeconds: 30
   successfulJobsHistoryLimit: 3
-  suspend: true
+  suspend: false
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
