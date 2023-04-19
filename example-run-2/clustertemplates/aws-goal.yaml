@@ -134,23 +134,6 @@ spec:
   cniPlugin:
     type: canal
     version: v3.24
-  componentsOverride:
-    apiserver:
-      nodePortRange: 30000-32767
-      replicas: 2
-    controllerManager:
-      leaderElection: {}
-      replicas: 1
-    etcd:
-      clusterSize: 3
-      diskSize: 5Gi
-    konnectivityProxy: {}
-    nodePortProxyEnvoy:
-      resources: {}
-    prometheus: {}
-    scheduler:
-      leaderElection: {}
-      replicas: 1
   containerRuntime: containerd
   enableOperatingSystemManager: true
   enableUserSSHKeyAgent: true

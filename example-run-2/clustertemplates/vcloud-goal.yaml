@@ -1,20 +1,18 @@
 apiVersion: kubermatic.k8c.io/v1
-kind: ClusterTemplate
 clusterLabels:
   is-credential-preset: "true"
   project-id: 9596h8bgw5
-credential: credential-azure-sig-cluster-template
+  type: demo
+credential: credential-vmware-cloud-director-sig-vcloud
+kind: ClusterTemplate
 metadata:
   annotations:
     kubermatic.io/initial-machinedeployment-request: |
       {
         "metadata": {
-          "name": "sig-azure-node",
+          "name": "vcloud-goal",
           "namespace": "kube-system",
           "creationTimestamp": null,
-          "annotations": {
-            "k8c.io/operating-system-profile": "osp-ubuntu"
-          },
           "finalizers": [
             "foregroundDeletion"
           ]
@@ -23,14 +21,14 @@ metadata:
           "replicas": 0,
           "selector": {
             "matchLabels": {
-              "machine": "azure-goal"
+              "machine": "vcloud-goal"
             }
           },
           "template": {
             "metadata": {
               "creationTimestamp": null,
               "labels": {
-                "machine": "azure-goal"
+                "machine": "vcloud-goal"
               }
             },
             "spec": {
@@ -42,30 +40,24 @@ metadata:
                 "value": {
                   "sshPublicKeys": [],
                   "caPublicKey": "",
-                  "cloudProvider": "azure",
+                  "cloudProvider": "vmware-cloud-director",
                   "cloudProviderSpec": {
-                    "subscriptionID": "",
-                    "tenantID": "",
-                    "clientID": "",
-                    "clientSecret": "",
-                    "location": "westeurope",
-                    "resourceGroup": "",
-                    "vnetResourceGroup": "",
-                    "vmSize": "Standard_D2_v2",
-                    "vnetName": "",
-                    "subnetName": "",
-                    "loadBalancerSku": "",
-                    "routeTableName": "",
-                    "availabilitySet": "",
-                    "assignAvailabilitySet": true,
-                    "securityGroupName": "",
-                    "zones": null,
-                    "enableAcceleratedNetworking": null,
-                    "imageID": "",
-                    "osDiskSize": 30,
-                    "dataDiskSize": 30,
-                    "assignPublicIP": true,
-                    "tags": {}
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "url": "",
+                    "vdc": "",
+                    "allowInsecure": false,
+                    "vapp": "",
+                    "template": "machine-controller-ubuntu",
+                    "catalog": "kubermatic",
+                    "network": "machine-controller-e2e",
+                    "ipAllocationMode": "DHCP",
+                    "cpus": 2,
+                    "cpuCores": 1,
+                    "memoryMB": 4096,
+                    "diskIOPS": 0,
+                    "storageProfile": "Intermediate"
                   },
                   "operatingSystem": "ubuntu",
                   "operatingSystemSpec": {
@@ -90,38 +82,25 @@ metadata:
         "status": {}
       }
     presetName: kubermatic-com
-    user: ezron@kubermatic.com
-  finalizers:
-  - kubermatic.k8c.io/cleanup-credentials-secrets
-  - kubermatic.k8c.io/cleanup-seed-cluster-template
-  generation: 1
+    user: tobias.schneck@kubermatic.com
   labels:
     is-credential-preset: "true"
-    name: azure-goal
+    name: vcloud-goal
     project-id: 9596h8bgw5
     scope: project
-  name: azure-goal
+  name: vcloud-goal
 spec:
-  auditLogging: {}
   cloud:
-    azure:
-      assignAvailabilitySet: true
-      availabilitySet: ""
+    dc: vcloud-director-arv
+    providerName: vmwareclouddirector
+    vmwareclouddirector:
       credentialsReference:
-        name: credential-azure-sig-cluster-template
+        name: credential-vmware-cloud-director-sig-vcloud
         namespace: kubermatic
-      loadBalancerSKU: basic
-      nodePortsAllowedIPRanges:
-        cidrBlocks:
-        - 0.0.0.0/0
-      resourceGroup: ""
-      routeTable: ""
-      securityGroup: ""
-      subnet: ""
-      vnet: ""
-      vnetResourceGroup: ""
-    dc: azure-westeurope
-    providerName: azure
+      csi:
+        filesystem: ext4
+        storageProfile: Intermediate
+      ovdcNetwork: machine-controller-e2e
   clusterNetwork:
     dnsDomain: cluster.local
     ipFamily: IPv4
@@ -144,13 +123,11 @@ spec:
   enableOperatingSystemManager: true
   enableUserSSHKeyAgent: true
   exposeStrategy: NodePort
-  humanReadableName: azure-goal
+  humanReadableName: vcloud-goal
   kubernetesDashboard:
     enabled: true
-  mla: {}
-  oidc: {}
   opaIntegration:
     enabled: true
     webhookTimeoutSeconds: 10
   pause: false
-  version: 1.25.6
+  version: 1.25.9

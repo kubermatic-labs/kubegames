@@ -13,7 +13,7 @@ metadata:
     is-credential-preset: "true"
     name: kubegames-aws-team-a
     project-id: dl6kxzf8br
-    scope: global
+    scope: project
   name: kubegames-aws-team-a
 spec:
   cloud:

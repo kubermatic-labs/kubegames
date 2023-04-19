@@ -13,7 +13,7 @@ metadata:
     is-credential-preset: "true"
     name: kubegames-gcp-team-g
     project-id: dl6kxzf8br
-    scope: global
+    scope: project
   name: kubegames-gcp-team-g
 spec:
   cloud:

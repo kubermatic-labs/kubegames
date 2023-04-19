@@ -1,15 +1,16 @@
 apiVersion: kubermatic.k8c.io/v1
-kind: ClusterTemplate
 clusterLabels:
   is-credential-preset: "true"
   project-id: 9596h8bgw5
-credential: credential-azure-sig-cluster-template
+  type: demo
+credential: credential-kubevirt-sig-kubevirt
+kind: ClusterTemplate
 metadata:
   annotations:
     kubermatic.io/initial-machinedeployment-request: |
       {
         "metadata": {
-          "name": "sig-azure-node",
+          "name": "sig-kvirt",
           "namespace": "kube-system",
           "creationTimestamp": null,
           "annotations": {
@@ -23,49 +24,65 @@ metadata:
           "replicas": 0,
           "selector": {
             "matchLabels": {
-              "machine": "azure-goal"
+              "machine": "kubevirt-goal"
             }
           },
           "template": {
             "metadata": {
               "creationTimestamp": null,
               "labels": {
-                "machine": "azure-goal"
+                "machine": "kubevirt-goal"
               }
             },
             "spec": {
               "metadata": {
-                "creationTimestamp": null,
-                "labels": {}
+                "creationTimestamp": null
               },
               "providerSpec": {
                 "value": {
                   "sshPublicKeys": [],
                   "caPublicKey": "",
-                  "cloudProvider": "azure",
+                  "cloudProvider": "kubevirt",
                   "cloudProviderSpec": {
-                    "subscriptionID": "",
-                    "tenantID": "",
-                    "clientID": "",
-                    "clientSecret": "",
-                    "location": "westeurope",
-                    "resourceGroup": "",
-                    "vnetResourceGroup": "",
-                    "vmSize": "Standard_D2_v2",
-                    "vnetName": "",
-                    "subnetName": "",
-                    "loadBalancerSku": "",
-                    "routeTableName": "",
-                    "availabilitySet": "",
-                    "assignAvailabilitySet": true,
-                    "securityGroupName": "",
-                    "zones": null,
-                    "enableAcceleratedNetworking": null,
-                    "imageID": "",
-                    "osDiskSize": 30,
-                    "dataDiskSize": 30,
-                    "assignPublicIP": true,
-                    "tags": {}
+                    "clusterName": "kubevirt-goal",
+                    "auth": {
+                      "kubeconfig": ""
+                    },
+                    "virtualMachine": {
+                      "flavor": {
+                        "name": "",
+                        "profile": ""
+                      },
+                      "instancetype": {
+                        "name": "standard-2",
+                        "kind": "VirtualMachineInstancetype"
+                      },
+                      "template": {
+                        "cpus": "",
+                        "memory": "",
+                        "primaryDisk": {
+                          "size": "10G",
+                          "storageClassName": "px-csi-db",
+                          "osImage": "http://image-repo.kube-system.svc/images/ubuntu-22.04.img",
+                          "source": ""
+                        }
+                      },
+                      "dnsPolicy": "None",
+                      "dnsConfig": {
+                        "nameservers": [
+                          "10.1.53.53"
+                        ]
+                      }
+                    },
+                    "affinity": {
+                      "podAffinityPreset": "",
+                      "podAntiAffinityPreset": "",
+                      "nodeAffinityPreset": {
+                        "type": "",
+                        "key": ""
+                      }
+                    },
+                    "topologySpreadConstraints": []
                   },
                   "operatingSystem": "ubuntu",
                   "operatingSystemSpec": {
@@ -89,39 +106,25 @@ metadata:
         },
         "status": {}
       }
-    presetName: kubermatic-com
-    user: ezron@kubermatic.com
-  finalizers:
-  - kubermatic.k8c.io/cleanup-credentials-secrets
-  - kubermatic.k8c.io/cleanup-seed-cluster-template
-  generation: 1
+    presetName: kubermatic-new-dc
+    user: tobias.schneck@kubermatic.com
   labels:
     is-credential-preset: "true"
-    name: azure-goal
+    name: kubevirt-goal
     project-id: 9596h8bgw5
     scope: project
-  name: azure-goal
+  name: kubevirt-goal
 spec:
-  auditLogging: {}
   cloud:
-    azure:
-      assignAvailabilitySet: true
-      availabilitySet: ""
+    dc: kv-europe-west3-c
+    kubevirt:
       credentialsReference:
-        name: credential-azure-sig-cluster-template
+        name: credential-kubevirt-sig-kubevirt
         namespace: kubermatic
-      loadBalancerSKU: basic
-      nodePortsAllowedIPRanges:
-        cidrBlocks:
-        - 0.0.0.0/0
-      resourceGroup: ""
-      routeTable: ""
-      securityGroup: ""
-      subnet: ""
-      vnet: ""
-      vnetResourceGroup: ""
-    dc: azure-westeurope
-    providerName: azure
+      storageClasses:
+      - isDefaultClass: true
+        name: px-csi-db
+    providerName: kubevirt
   clusterNetwork:
     dnsDomain: cluster.local
     ipFamily: IPv4
@@ -132,11 +135,11 @@ spec:
     nodeLocalDNSCacheEnabled: true
     pods:
       cidrBlocks:
-      - 172.25.0.0/16
+      - 172.26.0.0/16
     proxyMode: ebpf
     services:
       cidrBlocks:
-      - 10.240.16.0/20
+      - 10.241.0.0/20
   cniPlugin:
     type: cilium
     version: 1.13.0
@@ -144,13 +147,10 @@ spec:
   enableOperatingSystemManager: true
   enableUserSSHKeyAgent: true
   exposeStrategy: NodePort
-  humanReadableName: azure-goal
+  humanReadableName: kubevirt-goal
   kubernetesDashboard:
     enabled: true
-  mla: {}
-  oidc: {}
   opaIntegration:
-    enabled: true
     webhookTimeoutSeconds: 10
   pause: false
-  version: 1.25.6
+  version: 1.25.9

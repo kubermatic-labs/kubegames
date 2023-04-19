@@ -21,7 +21,7 @@ metadata:
           ]
         },
         "spec": {
-          "replicas": 2,
+          "replicas": 0,
           "selector": {
             "matchLabels": {
               "machine": "vsphere-goal"
@@ -80,7 +80,7 @@ metadata:
     is-credential-preset: "true"
     name: vsphere-goal
     project-id: 9596h8bgw5
-    scope: global
+    scope: project
   name: vsphere-goal
 spec:
   cloud:

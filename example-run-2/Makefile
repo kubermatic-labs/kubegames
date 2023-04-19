@@ -34,6 +34,8 @@ create-cluster-from-template-all:
 	${CLUSTER_TEMPLATE_APPLY} gcp-goal 1
 	${CLUSTER_TEMPLATE_APPLY} kubeadm-goal 1
 	${CLUSTER_TEMPLATE_APPLY} vsphere-goal 1
+	${CLUSTER_TEMPLATE_APPLY} kubevirt-goal 1
+	${CLUSTER_TEMPLATE_APPLY} vcloud-goal 1
 
 create-cluster-from-template-aws:
 	${CLUSTER_TEMPLATE_APPLY} aws-goal 1
@@ -46,9 +48,15 @@ create-cluster-from-template-gcp:
 
 create-cluster-from-template-kubeadm:
 	${CLUSTER_TEMPLATE_APPLY} kubeadm-goal 1
-	
+
 create-cluster-from-template-vsphere:
 	${CLUSTER_TEMPLATE_APPLY} vsphere-goal 1
+
+create-cluster-from-template-kubevirt:
+	${CLUSTER_TEMPLATE_APPLY} kubevirt-goal 1
+
+create-cluster-from-template-vcloud:
+	${CLUSTER_TEMPLATE_APPLY} vcloud-goal 1
 
 .PHONY:
 count-clusters:
