@@ -1,0 +1,156 @@
+apiVersion: kubermatic.k8c.io/v1
+kind: ClusterTemplate
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+credential: credential-azure-sig-cluster-template
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "sig-azure-node",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "annotations": {
+            "k8c.io/operating-system-profile": "osp-ubuntu"
+          },
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 0,
+          "selector": {
+            "matchLabels": {
+              "machine": "azure-goal"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "azure-goal"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null,
+                "labels": {}
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "azure",
+                  "cloudProviderSpec": {
+                    "subscriptionID": "",
+                    "tenantID": "",
+                    "clientID": "",
+                    "clientSecret": "",
+                    "location": "westeurope",
+                    "resourceGroup": "",
+                    "vnetResourceGroup": "",
+                    "vmSize": "Standard_D2_v2",
+                    "vnetName": "",
+                    "subnetName": "",
+                    "loadBalancerSku": "",
+                    "routeTableName": "",
+                    "availabilitySet": "",
+                    "assignAvailabilitySet": true,
+                    "securityGroupName": "",
+                    "zones": null,
+                    "enableAcceleratedNetworking": null,
+                    "imageID": "",
+                    "osDiskSize": 30,
+                    "dataDiskSize": 30,
+                    "assignPublicIP": true,
+                    "tags": {}
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-com
+    user: ezron@kubermatic.com
+  finalizers:
+  - kubermatic.k8c.io/cleanup-credentials-secrets
+  - kubermatic.k8c.io/cleanup-seed-cluster-template
+  generation: 1
+  labels:
+    is-credential-preset: "true"
+    name: azure-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: azure-goal
+spec:
+  auditLogging: {}
+  cloud:
+    azure:
+      assignAvailabilitySet: true
+      availabilitySet: ""
+      credentialsReference:
+        name: credential-azure-sig-cluster-template
+        namespace: kubermatic
+      loadBalancerSKU: basic
+      nodePortsAllowedIPRanges:
+        cidrBlocks:
+        - 0.0.0.0/0
+      resourceGroup: ""
+      routeTable: ""
+      securityGroup: ""
+      subnet: ""
+      vnet: ""
+      vnetResourceGroup: ""
+    dc: azure-westeurope
+    providerName: azure
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ebpf
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: cilium
+    version: 1.13.0
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: azure-goal
+  kubernetesDashboard:
+    enabled: true
+  mla: {}
+  oidc: {}
+  opaIntegration:
+    enabled: true
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.6

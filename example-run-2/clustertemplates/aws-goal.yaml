@@ -1,0 +1,150 @@
+apiVersion: kubermatic.k8c.io/v1
+kind: ClusterTemplate
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+  goal: aws
+credential: credential-aws-kubegames-cluster-template
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "aws-goal",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "annotations": {
+            "k8c.io/operating-system-profile": "osp-ubuntu"
+          },
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 0,
+          "selector": {
+            "matchLabels": {
+              "machine": "aws-goal"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "aws-goal"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null,
+                "labels": {}
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "aws",
+                  "cloudProviderSpec": {
+                    "accessKeyId": "",
+                    "secretAccessKey": "",
+                    "assumeRoleARN": "",
+                    "assumeRoleExternalID": "",
+                    "region": "eu-central-1",
+                    "availabilityZone": "eu-central-1b",
+                    "vpcId": "vpc-01c49dc069e4b0131",
+                    "subnetId": "subnet-0541a13d0cb8870d7",
+                    "securityGroupIDs": [
+                      ""
+                    ],
+                    "instanceProfile": "",
+                    "instanceType": "t3a.medium",
+                    "ami": "",
+                    "diskSize": 25,
+                    "diskType": "standard",
+                    "ebsVolumeEncrypted": false,
+                    "assignPublicIP": true,
+                    "isSpotInstance": true,
+                    "spotInstanceConfig": {
+                      "maxPrice": "0.1",
+                      "persistentRequest": true,
+                      "interruptionBehavior": ""
+                    }
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-com
+  labels:
+    is-credential-preset: "true"
+    name: aws-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: aws-goal
+spec:
+  auditLogging: {}
+  cloud:
+    aws:
+      credentialsReference:
+        name: credential-aws-kubegames-cluster-template
+        namespace: kubermatic
+      instanceProfileName: ""
+      nodePortsAllowedIPRanges:
+        cidrBlocks:
+        - 0.0.0.0/0
+      roleARN: ""
+      routeTableID: ""
+      securityGroupID: ""
+      vpcID: vpc-01c49dc069e4b0131
+    dc: aws-eu-central-1a
+    providerName: aws
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.24
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: aws-goal
+  kubernetesDashboard:
+    enabled: true
+  mla: {}
+  oidc: {}
+  opaIntegration:
+    enabled: true
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.6

@@ -1,0 +1,133 @@
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+  type: demo
+credential: credential-vmware-cloud-director-sig-vcloud
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "vcloud-goal",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 0,
+          "selector": {
+            "matchLabels": {
+              "machine": "vcloud-goal"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "vcloud-goal"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null,
+                "labels": {}
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "vmware-cloud-director",
+                  "cloudProviderSpec": {
+                    "username": "",
+                    "password": "",
+                    "organization": "",
+                    "url": "",
+                    "vdc": "",
+                    "allowInsecure": false,
+                    "vapp": "",
+                    "template": "machine-controller-ubuntu",
+                    "catalog": "kubermatic",
+                    "network": "machine-controller-e2e",
+                    "ipAllocationMode": "DHCP",
+                    "cpus": 2,
+                    "cpuCores": 1,
+                    "memoryMB": 4096,
+                    "diskIOPS": 0,
+                    "storageProfile": "Intermediate"
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-com
+    user: tobias.schneck@kubermatic.com
+  labels:
+    is-credential-preset: "true"
+    name: vcloud-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: vcloud-goal
+spec:
+  cloud:
+    dc: vcloud-director-arv
+    providerName: vmwareclouddirector
+    vmwareclouddirector:
+      credentialsReference:
+        name: credential-vmware-cloud-director-sig-vcloud
+        namespace: kubermatic
+      csi:
+        filesystem: ext4
+        storageProfile: Intermediate
+      ovdcNetwork: machine-controller-e2e
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ebpf
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: cilium
+    version: 1.13.0
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: vcloud-goal
+  kubernetesDashboard:
+    enabled: true
+  opaIntegration:
+    enabled: true
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.9

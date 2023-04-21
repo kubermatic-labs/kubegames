@@ -1,0 +1,156 @@
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+  type: demo
+credential: credential-kubevirt-sig-kubevirt
+kind: ClusterTemplate
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "sig-kvirt",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "annotations": {
+            "k8c.io/operating-system-profile": "osp-ubuntu"
+          },
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 0,
+          "selector": {
+            "matchLabels": {
+              "machine": "kubevirt-goal"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "kubevirt-goal"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "kubevirt",
+                  "cloudProviderSpec": {
+                    "clusterName": "kubevirt-goal",
+                    "auth": {
+                      "kubeconfig": ""
+                    },
+                    "virtualMachine": {
+                      "flavor": {
+                        "name": "",
+                        "profile": ""
+                      },
+                      "instancetype": {
+                        "name": "standard-2",
+                        "kind": "VirtualMachineInstancetype"
+                      },
+                      "template": {
+                        "cpus": "",
+                        "memory": "",
+                        "primaryDisk": {
+                          "size": "10G",
+                          "storageClassName": "px-csi-db",
+                          "osImage": "http://image-repo.kube-system.svc/images/ubuntu-22.04.img",
+                          "source": ""
+                        }
+                      },
+                      "dnsPolicy": "None",
+                      "dnsConfig": {
+                        "nameservers": [
+                          "10.1.53.53"
+                        ]
+                      }
+                    },
+                    "affinity": {
+                      "podAffinityPreset": "",
+                      "podAntiAffinityPreset": "",
+                      "nodeAffinityPreset": {
+                        "type": "",
+                        "key": ""
+                      }
+                    },
+                    "topologySpreadConstraints": []
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-new-dc
+    user: tobias.schneck@kubermatic.com
+  labels:
+    is-credential-preset: "true"
+    name: kubevirt-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: kubevirt-goal
+spec:
+  cloud:
+    dc: kv-europe-west3-c
+    kubevirt:
+      credentialsReference:
+        name: credential-kubevirt-sig-kubevirt
+        namespace: kubermatic
+      storageClasses:
+      - isDefaultClass: true
+        name: px-csi-db
+    providerName: kubevirt
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.26.0.0/16
+    proxyMode: ebpf
+    services:
+      cidrBlocks:
+      - 10.241.0.0/20
+  cniPlugin:
+    type: cilium
+    version: 1.13.0
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: kubevirt-goal
+  kubernetesDashboard:
+    enabled: true
+  opaIntegration:
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.9

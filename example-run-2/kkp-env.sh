@@ -16,7 +16,7 @@ export KKP_MACHINE_MANAGEMENT=md-yaml
 
 ## KKP run environment
 export KKP_API=https://run-2.lab.kubermatic.io/api/v2
-export KKP_PROJECT=8hv247fwn7
+export KKP_PROJECT=9596h8bgw5
 
 #TODO set token before
 #export KKP_TOKEN=xxxx-token-xxxx

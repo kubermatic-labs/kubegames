@@ -1,0 +1,137 @@
+kind: ClusterTemplate
+apiVersion: kubermatic.k8c.io/v1
+clusterLabels:
+  is-credential-preset: "true"
+  project-id: 9596h8bgw5
+  type: demo
+credential: credential-gcp-sig-cluster-template
+metadata:
+  annotations:
+    kubermatic.io/initial-machinedeployment-request: |
+      {
+        "metadata": {
+          "name": "gcp-goal-node",
+          "namespace": "kube-system",
+          "creationTimestamp": null,
+          "finalizers": [
+            "foregroundDeletion"
+          ]
+        },
+        "spec": {
+          "replicas": 0,
+          "selector": {
+            "matchLabels": {
+              "machine": "gcp-goal-node"
+            }
+          },
+          "template": {
+            "metadata": {
+              "creationTimestamp": null,
+              "labels": {
+                "machine": "gcp-goal-node"
+              }
+            },
+            "spec": {
+              "metadata": {
+                "creationTimestamp": null,
+                "labels": {
+                  "machine": "gcp-goal-node"
+                }
+              },
+              "providerSpec": {
+                "value": {
+                  "sshPublicKeys": [],
+                  "caPublicKey": "",
+                  "cloudProvider": "gce",
+                  "cloudProviderSpec": {
+                    "serviceAccount": "",
+                    "zone": "europe-west3-a",
+                    "machineType": "n2-standard-2",
+                    "diskSize": 25,
+                    "diskType": "pd-standard",
+                    "network": "",
+                    "subnetwork": "",
+                    "preemptible": true,
+                    "assignPublicIPAddress": true,
+                    "multizone": false,
+                    "regional": false,
+                    "customImage": "",
+                    "disableMachineServiceAccount": null,
+                    "enableNestedVirtualization": null,
+                    "minCPUPlatform": ""
+                  },
+                  "operatingSystem": "ubuntu",
+                  "operatingSystemSpec": {
+                    "distUpgradeOnBoot": false
+                  },
+                  "network": {
+                    "cidr": "",
+                    "gateway": "",
+                    "dns": {
+                      "servers": null
+                    },
+                    "ipFamily": "IPv4"
+                  }
+                }
+              },
+              "versions": {
+                "kubelet": ""
+              }
+            }
+          }
+        },
+        "status": {}
+      }
+    presetName: kubermatic-com
+  labels:
+    is-credential-preset: "true"
+    name: gcp-goal
+    project-id: 9596h8bgw5
+    scope: project
+  name: gcp-goal
+spec:
+  cloud:
+    dc: gcp
+    gcp:
+      credentialsReference:
+        name: credential-gcp-sig-cluster-template
+        namespace: kubermatic
+      network: ""
+      nodePortsAllowedIPRanges:
+        cidrBlocks:
+        - 0.0.0.0/0
+      subnetwork: ""
+    providerName: gcp
+  clusterNetwork:
+    dnsDomain: cluster.local
+    ipFamily: IPv4
+    ipvs:
+      strictArp: true
+    konnectivityEnabled: true
+    nodeCidrMaskSizeIPv4: 24
+    nodeLocalDNSCacheEnabled: true
+    pods:
+      cidrBlocks:
+      - 172.25.0.0/16
+    proxyMode: ipvs
+    services:
+      cidrBlocks:
+      - 10.240.16.0/20
+  cniPlugin:
+    type: canal
+    version: v3.24
+  containerRuntime: containerd
+  enableOperatingSystemManager: true
+  enableUserSSHKeyAgent: true
+  exposeStrategy: NodePort
+  humanReadableName: gcp-goal
+  kubernetesDashboard:
+    enabled: true
+  mla:
+    loggingEnabled: false
+    monitoringEnabled: false
+  opaIntegration:
+    enabled: true
+    webhookTimeoutSeconds: 10
+  pause: false
+  version: 1.25.6
