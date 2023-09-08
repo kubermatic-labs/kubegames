@@ -32,7 +32,8 @@ spec:
                   
                   #max 90 tries => 15min for one cluster
                   maxcount=60 
-                  for i in `kubectl get cluster  -l project-id=9596h8bgw5 --no-headers | awk '{print $1}'`; do
+                  # Don't shoot clusters while they are "creating", only when "running". Otherwise it creates hickups.
+                  for i in `kubectl get cluster  -l project-id=p879w5kf2h  -o json | jq '.items[] | select(.status.phase == "Running") | .metadata.name' --raw-output`; do
                       count=0
 
                       kubectl delete cluster $i
