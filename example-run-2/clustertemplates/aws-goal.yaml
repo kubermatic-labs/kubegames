@@ -2,7 +2,7 @@ apiVersion: kubermatic.k8c.io/v1
 kind: ClusterTemplate
 clusterLabels:
   is-credential-preset: "true"
-  project-id: 9596h8bgw5
+  project-id: p879w5kf2h
   goal: aws
 credential: credential-aws-kubegames-cluster-template
 metadata:
@@ -96,7 +96,7 @@ metadata:
   labels:
     is-credential-preset: "true"
     name: aws-goal
-    project-id: 9596h8bgw5
+    project-id: p879w5kf2h
     scope: project
   name: aws-goal
 spec:
