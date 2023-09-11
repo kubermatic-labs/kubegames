@@ -29,21 +29,27 @@ spec:
                   set -x
                   echodate() { echo "$(date) $@"; }
                   echodate "Starting to clean up"
-                  
+
                   #max 90 tries => 15min for one cluster
                   maxcount=60 
-                  # Don't shoot clusters while they are "creating", only when "running". Otherwise it creates hickups.
-                  for i in `kubectl get cluster  -l project-id=p879w5kf2h  -o json | jq '.items[] | select(.status.phase == "Running") | .metadata.name' --raw-output`; do
-                      count=0
+                  deletecluster() {
+                    count=0
+                    i=$1
 
-                      kubectl delete cluster $i
-                      until kubectl get cluster $i 2>&1| grep -q NotFound  ||  [ $count -ge $maxcount ] ; do
-                           echodate "Cluster $i is still been deleted, waiting for it to be cleaned up ... ($count / $maxcount)"
-                           ((count=count+1))
-                           sleep 10s
-                      done
-                      echodate "Cluster $i has been deleted"
+                    kubectl delete cluster $i
+                    until kubectl get cluster $i 2>&1| grep -q NotFound  ||  [ $count -ge $maxcount ] ; do
+                          echodate "Cluster $i is still been deleted, waiting for it to be cleaned up ... ($count / $maxcount)"
+                          ((count=count+1))
+                          sleep 10s
+                    done
+                    echodate "Cluster $i has been deleted"
+                  }
+                  for i in $(kubectl get cluster  -l project-id=p879w5kf2h --no-headers | awk '{print $1}'); do
+                    # start in background
+                    deletecluster "$i" &
                   done
+
+                  wait
                   echodate "Cluster cleanup has been completed"
               command:
                 - /bin/bash
